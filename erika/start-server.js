@@ -53,6 +53,7 @@ module.exports = function (dataDriver, options) {
         } else {
             res.render("stream", {
                 title: title,
+                siteTitle: options.site_title,
                 post: data.allposts[index],
                 users: data.users
             });
