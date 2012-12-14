@@ -13,7 +13,7 @@ var implementations = {
 };
 
 module.exports = (function (platform) {
-    var func = implementations[process.platform];
+    var func = implementations[platform];
     if (func) {
         return func;
     }
