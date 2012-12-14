@@ -68,17 +68,18 @@ a {
 
 .left-column {
     display: inline-block;
+    margin-right: 10px;
 }
 .main-column {
     display: inline-block;
     vertical-align: top;
-    margin-left: 10px;
-    width: 80%;
     padding-bottom: 5px;
 }
 
 .main-column p {
     margin: 10px 0;
+}
+#feed .main-column p {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -122,4 +123,21 @@ a {
 }
 #post .comment {
     margin-left: 24px;
+}
+
+@media (max-width: 1199px) {
+    .main-column {
+        max-width: 80%;
+    }
+    #post li {
+        max-width: 95%;
+    }
+}
+@media (min-width: 1200px) {
+    .main-column {
+        max-width: 60em;
+    }
+    #post li {
+        max-width: 60em;
+    }
 }
