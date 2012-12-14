@@ -1,0 +1,17 @@
+{
+	"globals": {
+		"$": true,
+		"jQuery": true
+	},
+
+	"node": true,
+	"browser": true,
+
+	"strict": true,
+	"shadow": true,
+	"laxcomma": true,
+	"eqeqeq": true,
+	"eqnull": true,
+	"undef": true
+	// , "unused": true
+}
