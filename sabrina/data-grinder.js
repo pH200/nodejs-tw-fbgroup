@@ -8,7 +8,7 @@ module.exports = function (queryResult) {
                 allposts = item.fql_result_set;
                 break;
             case "usernames":
-                usernames = item.fql_result_set;;
+                usernames = item.fql_result_set;
                 break;
             case "group":
                 group = item.fql_result_set;

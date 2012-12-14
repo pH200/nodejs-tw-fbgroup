@@ -9,6 +9,7 @@
         "node": ">=0.8"
     },
     "dependencies": {
+        "cron": "1.x.x",
         "express": "3.0.4",
         "ejs": "*",
         "request": "*",

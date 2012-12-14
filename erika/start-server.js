@@ -10,7 +10,7 @@ require("./ejs-filters");
 var rootDir = path.join(__dirname, "..");
 var defaultTitle = "Facebook Archive";
 
-module.exports = function (data, options) {
+module.exports = function (dataDriver, options) {
     var app = express();
     var bodyParser = express.bodyParser();
     
@@ -35,6 +35,7 @@ module.exports = function (data, options) {
     var title = options.site_title ? (options.site_title + " - " + defaultTitle) : defaultTitle;
 
     app.get('/', function (req, res) {
+        var data = dataDriver.getData();
         res.render("index", {
             title: title,
             allposts: data.allposts,
@@ -43,6 +44,7 @@ module.exports = function (data, options) {
     });
 
     app.get("/post/:id", function (req, res) {
+        var data = dataDriver.getData();
         var id = req.params.id;
         var index = data.postIndices.indexOf(id);
         if (index === -1) {

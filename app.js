@@ -9,8 +9,9 @@ var path = require('path');
 var fbQuery = require("./sabrina/fb-query");
 var readJson = require("./sabrina/persistence-read-json");
 var saveJson = require("./sabrina/persistence-save-json");
-var dataGrinder = require("./sabrina/data-grinder");
 var startServer = require("./erika/start-server");
+
+var DataDriver = require("./sabrina/data-driver");
 
 var waterfall = require("./sabrina/waterfall");
 
@@ -20,6 +21,7 @@ var argv = optimist
     .alias("db", "persistence")
     .string(["appid", "appsecret", "groupid", "accesstoken"])
     .string(["persistence", "jsonpath", "jsondir"])
+    .string(["cron"])
     .string(["site_title"])
     .boolean(["get_token"])
     .boolean(["rebuild", "disable_static", "no_auto_rebuild", "skip_server"])
@@ -106,7 +108,12 @@ function main () {
             return console.log(err);
         }
         if (!argv.skip_server) {
-            startServer(dataGrinder(data), argv);
+            var driver = new DataDriver(data, function (data) {
+                if (persistence === "json") {
+                    return saveJson(JSON.stringify(data), argv.jsonpath, argv.jsondir);
+                }
+            }, argv);
+            startServer(driver, argv);
         }
     });
 }
