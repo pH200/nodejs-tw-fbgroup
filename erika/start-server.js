@@ -38,6 +38,7 @@ module.exports = function (dataDriver, options) {
         var data = dataDriver.getData();
         res.render("index", {
             title: title,
+            siteTitle: options.site_title,
             allposts: data.allposts,
             users: data.users
         });

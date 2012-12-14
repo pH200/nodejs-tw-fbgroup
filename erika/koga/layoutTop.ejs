@@ -4,6 +4,12 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0" />
         <title><%= title %></title>
+        <meta property="og:title" content="<%= title %>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/img/cytisan_fb.jpg" />
+        <% if (siteTitle) { %>
+            <meta property="og:description" content="Archive site for <%= siteTitle %>" />
+        <% } %>
         <link href="/css/main.css" rel="stylesheet" />
         <script src="/js/modernizr.custom.46542.js"></script>
     </head>
