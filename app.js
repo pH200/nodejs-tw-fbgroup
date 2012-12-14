@@ -2,20 +2,12 @@
 
 var optimist = require("optimist");
 
-var express = require('express');
-var http = require('http');
-var path = require('path');
-
 var fbQuery = require("./sabrina/fb-query");
 var readJson = require("./sabrina/persistence-read-json");
 var saveJson = require("./sabrina/persistence-save-json");
-var startServer = require("./erika/start-server");
-
 var DataDriver = require("./sabrina/data-driver");
-
 var waterfall = require("./sabrina/waterfall");
-
-var navigateUrl = require("./sabrina/navigate-url");
+var startServer = require("./erika/start-server");
 
 var argv = optimist
     .alias("db", "persistence")
@@ -24,7 +16,6 @@ var argv = optimist
     .string(["cron"])
     .string(["site_title"])
     .boolean(["rebuild", "disable_static", "no_auto_rebuild", "skip_server"])
-    .boolean(["login_steps", "exchange_token", "navigate_url"])
     /* .default() */
     ["default"]("persistence", "json")
     ["default"]("jsondir", __dirname)
@@ -37,32 +28,6 @@ var argv = optimist
     ["default"]("port", process.env.PORT || 5566)
     .wrap(80)
     .argv;
-
-
-
-function steps (onNext) {
-    if (argv.login_steps) {
-        console.log("Login URL: ");
-        var url = fbQuery.getDefaultAuthUrl(argv.appid || "$APPID");
-        console.log(url);
-        if (argv.navigate_url && argv.appid) {
-            navigateUrl(url);
-        }
-    } else if (argv.exchange_token) {
-        console.log("Open URL: ");
-        var url = fbQuery.getExchangeTokenUrl(
-            argv.appid || "$APPID",
-            argv.appsecret || "$APPSECRET",
-            argv.accesstoken || "$ACCESSTOKEN");
-        console.log(url);
-        if (argv.navigate_url &&
-            argv.appid && argv.appsecret && argv.accesstoken) {
-            navigateUrl(url);
-        }
-    } else {
-        onNext(null);
-    }
-}
 
 var persistence = argv.persistence;
 
@@ -118,4 +83,4 @@ function main () {
     });
 }
 
-steps(main);
+main();
