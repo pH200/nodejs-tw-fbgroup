@@ -13,17 +13,25 @@
         <div class="user-name"><%= user.name %></div>
         <% } %>
         <p class="post-message"><%-: post.message | escape | br | linkify %></p>
-        <% if (post.attachment && post.attachment.href) { %>
-        <div class="attachment">
-            <a href="<%= post.attachment.href %>" target="_blank">
-            <% if (post.attachment.icon) { %><img src="<%= post.attachment.icon %>" alt="icon" /><% } %>
-            <%= post.attachment.name %>
-            </a>
-        </div>
+        <% if (post.attachment && post.attachment.media) { %>
+            <div class="attachment">
+                <p>
+                    <% if (post.attachment.href) { %>
+                    <a href="<%= post.attachment.href %>" target="_blank">
+                        <% if (post.attachment.icon) { %><img src="<%= post.attachment.icon %>" alt="icon" /><% } %>
+                        <%= post.attachment.name %>
+                    </a>
+                    <% } else if (post.attachment.media && post.attachment.media[0] && post.attachment.media[0].type === "photo") { %>
+                    <a href="<%= post.attachment.media[0].href %>" target="_blank">
+                        <img class="attachment-photo" src="<%= post.attachment.media[0].src %>" alt="photo" />
+                    </a>
+                    <% } %>
+                </p>
+            </div>
         <% } %>
         <div class="notes">
             <p>
-                <span><%= post.likes.count %> like<%= post.likes.count > 1 ? "s" : "" %></span>
+                <span><%= post.likes.count %> like<%= post.likes.count > 1 ? "s" : "" %>,</span>
                 <span><%= post.comments.count %> comment<%= post.comments.count > 1 ? "s" : "" %></span>
             </p>
         </div>

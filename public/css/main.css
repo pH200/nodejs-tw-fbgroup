@@ -15,7 +15,7 @@ a {
     background-color: #CCC;
     height: 34px;
     border-bottom: 3px solid dimgray;
-    padding-left: 20px;
+    padding-left: 35px;
     font-family: "Meiryo UI","Microsoft Jhenghei","微軟正黑體",sans-serif;
 }
 #menu a {
@@ -62,6 +62,10 @@ a {
 }
 .attachment a:hover {
     background-color: #CCC;
+}
+.attachment .attachment-photo {
+    max-width: 130px;
+    max-height: 130px;
 }
 
 .left-column {
