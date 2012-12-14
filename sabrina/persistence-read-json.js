@@ -2,7 +2,9 @@
 
 var fs = require("fs");
 var path = require("path");
+
 var waterfall = require("./waterfall");
+var jsonParse = require("./json-parse");
 
 module.exports = function (jsonpath, jsondir, callback) {
     return waterfall.escapeWaterfall([
@@ -38,16 +40,10 @@ module.exports = function (jsonpath, jsondir, callback) {
             return escape(new Error("file not found"));
         },
         function (value, cb, end, escape) {
-            fs.readFile(path.join(jsondir, value), "utf8", escape);
+            return fs.readFile(path.join(jsondir, value), "utf8", escape);
         },
         function (value, cb, end) {
-            var parsedObj = null;
-            try {
-                parsedObj = JSON.parse(value);
-            } catch (e) {
-                return end(e);
-            }
-            end(null, parsedObj);
+            return jsonParse(value, end);
         }
     ], callback);
 };

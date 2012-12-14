@@ -3,6 +3,8 @@
 var url = require("url");
 var request = require("request");
 
+var jsonParse = require("./json-parse");
+
 var DESKTOP_REDIRECT_URI = "https://www.facebook.com/connect/login_success.html";
 
 var component = {
@@ -63,19 +65,10 @@ var component = {
         var query = buildQuery(groupId);
         var requestUrl = buildQueryUrl(query, accessToken);
         return request.get(requestUrl, function (err, response, body) {
-            function onError (e) {
-                return callback(e);
-            }
             if (err) {
-                return onError(err);
+                return callback(err);
             }
-            var parsedObj;
-            try {
-                parsedObj = JSON.parse(body);
-            } catch (e) {
-                return onError(e);
-            }
-            return callback(null, parsedObj);
+            return jsonParse(body, callback);
         });
     }
 };
