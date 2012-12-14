@@ -55,4 +55,9 @@ module.exports = {
         }
         funcs[index++](initValue, asyncCb, asyncEnd, asyncEscape);
     }
+    , carry: function (value, callback) {
+        return function (err) {
+            callback(null, [err, value]);
+        };
+    }
 };

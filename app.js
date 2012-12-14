@@ -88,16 +88,17 @@ waterfall.escapeWaterfall([
     },
     function (value, cb, end, escape) {
         if (persistence === "json") {
-            return saveJson(JSON.stringify(value), argv.jsonpath, argv.jsondir, function (err) {
-                if (err) {
-                    console.log(err);
-                    console.log("failed saving persistence.");
-                }
-                return end(null, value);
-            });
+            return saveJson(JSON.stringify(value), argv.jsonpath, argv.jsondir, waterfall.carry(value, cb));
         } else {
             return end(null, value);
         }
+    },
+    function (value, cb, end, escape) {
+        if (/* err */value[0]) {
+            console.log(value[0]);
+            console.log("failed saving persistence.");
+        }
+        return end(null, /* value */value[1]);
     }
 ], function (err, data) {
     if (err) {
