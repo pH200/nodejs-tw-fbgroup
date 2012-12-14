@@ -23,7 +23,6 @@ var argv = optimist
     .string(["persistence", "jsonpath", "jsondir"])
     .string(["cron"])
     .string(["site_title"])
-    .boolean(["get_token"])
     .boolean(["rebuild", "disable_static", "no_auto_rebuild", "skip_server"])
     .boolean(["login_steps", "exchange_token", "navigate_url"])
     /* .default() */
@@ -33,6 +32,7 @@ var argv = optimist
     ["default"]("appsecret", process.env.FGA_APPSECRET)
     ["default"]("groupid", process.env.FGA_GROUPID)
     ["default"]("accesstoken", process.env.FGA_ACCESSTOKEN)
+    ["default"]("cron", process.env.FGA_CRON)
     ["default"]("site_title", process.env.FGA_SITETITLE)
     ["default"]("port", process.env.PORT || 5566)
     .wrap(80)
