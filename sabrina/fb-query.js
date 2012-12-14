@@ -36,18 +36,18 @@ var component = {
             return {
                 "allposts":
                     "SELECT " + 
-                        "post_id,actor_id,message,attachment,comments,permalink,created_time,updated_time " + 
+                        "post_id,actor_id,message,attachment,likes,comments,permalink,created_time,updated_time " + 
                     "FROM stream " + 
                     "WHERE source_id in " + 
                         "(SELECT gid FROM group WHERE gid='" + groupId + "') " + 
                     "LIMIT 100",
 
                 "usernames":
-                    "SELECT name,uid FROM user WHERE uid IN " +
+                    "SELECT name,pic_square,uid FROM user WHERE uid IN " +
                         "(SELECT actor_id,comments.comment_list.fromid FROM #allposts)",
 
                 "group":
-                    "SELECT name,gid FROM group WHERE gid='" + groupId + "'"
+                    "SELECT name,pic_square,gid FROM group WHERE gid='" + groupId + "'"
             };
         }
         function buildQueryUrl (query, accessToken) {

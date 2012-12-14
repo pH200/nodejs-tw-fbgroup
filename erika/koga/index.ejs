@@ -1,38 +1,43 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title><%= title %></title>
-        <style>
-            span.user-id {
-                font-style: italic;
-            }
-        </style>
-    </head>
-    <body>
-        <ul>
-            <% for (var i = 0; i < allposts.length; i++) { %>
-                <%  var post = allposts[i];
-                    var commentList = post.comments.comment_list; %>
-                <li>
-                    <%  var userIndex = users.indices.indexOf(post.actor_id); %>
-                    <% if (userIndex >= 0) { %>
-                        <span class="user-id"><%= users.users[userIndex].name %>: </span>
+<% include layoutTop %>
+<div id="feed">
+    <ul>
+        <% for (var i = 0; i < allposts.length; i++) { %>
+            <%  var post = allposts[i];
+                var commentList = post.comments.comment_list; %>
+            <li>
+                <%  var userIndex = users.indices.indexOf(post.actor_id);
+                    var user = users.users[userIndex]; %>
+                <div class="left-column">
+                    <% if (user) { %>
+                    <a href="/post/<%= post.post_id %>">
+                        <img class="user-pic" src="<%= user.pic_square %>" alt="<%= user.name %>" />
+                    </a>
                     <% } %>
-                    <span><%-: post.message | br %></span>
-                    <ul>
-                        <% for (var commentIndex = 0; commentIndex < commentList.length; commentIndex++) { %>
-                            <li>
-                                <%  var comment = commentList[commentIndex];
-                                    var cUserIndex = users.indices.indexOf(comment.fromid) %>
-                                <% if (cUserIndex >= 0) { %>
-                                    <span class="user-id"><%= users.users[cUserIndex].name %>: </span>
-                                <% } %>
-                                <span><%-: comment.text | br %></span>
-                            </li>
-                        <% } %>
-                    </ul>
-                </li>
-            <% } %>
-        </ul>
-    </body>
-</html>
+                </div>
+                <div class="main-column">
+                    <% if (user) { %>
+                    <div class="user-name"><%= user.name %></div>
+                    <% } %>
+                    <a href="/post/<%= post.post_id %>"><p class="post-message"><%= post.message %></p></a>
+                    <% if (post.attachment && post.attachment.href) { %>
+                    <div class="attachment">
+                        <p>
+                        <a href="<%= post.attachment.href %>" target="_blank">
+                        <% if (post.attachment.icon) { %><img src="<%= post.attachment.icon %>" alt="icon" /><% } %>
+                        <%= post.attachment.name %>
+                        </a>
+                        </p>
+                    </div>
+                    <% } %>
+                    <div class="notes">
+                        <p>
+                            <span><%= post.likes.count %> like<%= post.likes.count > 1 ? "s" : "" %></span>
+                            <span><%= post.comments.count %> comment<%= post.comments.count > 1 ? "s" : "" %></span>
+                        </p>
+                    </div>
+                </div>
+            </li>
+        <% } %>
+    </ul>
+</div>
+<% include layoutBottom %>

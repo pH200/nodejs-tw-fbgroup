@@ -28,10 +28,18 @@ module.exports = function (queryResult) {
             users: users
         };
     })(usernames);
+    var postIndices = (function (allposts) {
+        var indices = [];
+        for (var i = 0, len = allposts.length; i < len; i++) {
+            indices.push(allposts[i].post_id);
+        }
+        return indices;
+    })(allposts);
     return {
         allposts: allposts,
         usernames: usernames,
         group: group,
+        postIndices: postIndices,
         users: users
     };
 };

@@ -1,0 +1,123 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+img {
+    border: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+#menu {
+    background-color: #CCC;
+    height: 34px;
+    border-bottom: 3px solid dimgray;
+    padding-left: 20px;
+    font-family: "Meiryo UI","Microsoft Jhenghei","微軟正黑體",sans-serif;
+}
+#menu a {
+    display: inline-block;
+    padding: 0 5px;
+    height: 34px;
+    color: #555;
+    text-decoration: none;
+}
+#menu a:hover {
+    background-color: gainsboro;
+    box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
+}
+#menu .menu-title {
+    vertical-align: middle;
+}
+
+.user-name {
+    color: #666;
+    font-weight: bold;
+}
+
+#feed, #post {
+    margin: 40px;
+}
+#feed ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+#feed li {
+    display: block;
+    border-bottom: 1px solid gray;
+    margin-bottom: 20px;
+}
+
+.user-pic {
+    width: 50px;
+    height: 50px;
+}
+
+.attachment a {
+    color: #558 !important;
+}
+.attachment a:hover {
+    background-color: #CCC;
+}
+
+.left-column {
+    display: inline-block;
+}
+.main-column {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+    width: 80%;
+    padding-bottom: 5px;
+}
+
+.main-column p {
+    margin: 10px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.main-column a {
+    color: black;
+}
+.main-column a:hover {
+    text-decoration: underline;
+}
+.notes {
+    font-size: 0.9em;
+    color: gray;
+}
+
+#post a {
+    text-decoration: underline;
+}
+#post .attachment a {
+    text-decoration: none;
+}
+
+#post .commenter img {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+#post .commenter {
+    margin-bottom: 4px;
+}
+#post li {
+    margin-bottom: 12px;
+}
+#post a {
+    color: #558;
+}
+#post .commenter .user-name {
+    font-weight: normal;
+}
+#post .comment {
+    margin-left: 24px;
+}

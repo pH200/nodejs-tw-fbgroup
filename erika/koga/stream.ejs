@@ -1,0 +1,47 @@
+<% include layoutTop %>
+<article id="post">
+    <%  var commentList = post.comments.comment_list; %>
+    <%  var userIndex = users.indices.indexOf(post.actor_id);
+        var user = users.users[userIndex]; %>
+    <div class="left-column">
+        <% if (user) { %>
+        <img class="user-pic" src="<%= user.pic_square %>" alt="<%= user.name %>" />
+        <% } %>
+    </div>
+    <div class="main-column">
+        <% if (user) { %>
+        <div class="user-name"><%= user.name %></div>
+        <% } %>
+        <p class="post-message"><%-: post.message | escape | br | linkify %></p>
+        <% if (post.attachment && post.attachment.href) { %>
+        <div class="attachment">
+            <a href="<%= post.attachment.href %>" target="_blank">
+            <% if (post.attachment.icon) { %><img src="<%= post.attachment.icon %>" alt="icon" /><% } %>
+            <%= post.attachment.name %>
+            </a>
+        </div>
+        <% } %>
+        <div class="notes">
+            <p>
+                <span><%= post.likes.count %> like<%= post.likes.count > 1 ? "s" : "" %></span>
+                <span><%= post.comments.count %> comment<%= post.comments.count > 1 ? "s" : "" %></span>
+            </p>
+        </div>
+    </div>
+    <ul>
+        <% for (var commentIndex = 0; commentIndex < commentList.length; commentIndex++) { %>
+            <li>
+                <%  var comment = commentList[commentIndex];
+                    var cUserIndex = users.indices.indexOf(comment.fromid);
+                    var cUser = users.users[cUserIndex]; %>
+                <% if (cUser) { %>
+                    <div class="commenter">
+                        <img src="<%= cUser.pic_square %>" alt="<%= cUser.name %>" /><span class="user-name"><%= cUser.name %></span>
+                    </div>
+                <% } %>
+                <div class="comment"><%-: comment.text | escape | br | linkify %></div>
+            </li>
+        <% } %>
+    </ul>
+</article>
+<% include layoutBottom %>

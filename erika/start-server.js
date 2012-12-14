@@ -42,6 +42,20 @@ module.exports = function (data, options) {
         });
     });
 
+    app.get("/post/:id", function (req, res) {
+        var id = req.params.id;
+        var index = data.postIndices.indexOf(id);
+        if (index === -1) {
+            return res.send(404);
+        } else {
+            res.render("stream", {
+                title: title,
+                post: data.allposts[index],
+                users: data.users
+            });
+        }
+    });
+
     http.createServer(app).listen(app.get('port'), function () {
         console.log("Express server listening on port " + app.get('port'));
     });
