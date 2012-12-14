@@ -8,6 +8,7 @@ var path = require('path');
 require("./ejs-filters");
 
 var rootDir = path.join(__dirname, "..");
+var defaultTitle = "Facebook Archive";
 
 module.exports = function (data, options) {
     var app = express();
@@ -31,31 +32,13 @@ module.exports = function (data, options) {
         app.use(express.errorHandler());
     });
 
-    var usernames = (function (data) {
-        var usernameIndices = [];
-        var usernames = [];
-        var resultSet = data.data[2].fql_result_set;
-        for (var i = 0, len = resultSet.length; i < len; i++) {
-            var user = resultSet[i];
-            usernameIndices.push(user.uid);
-            usernames.push(user);
-        }
-        return {
-            usernameIndices: usernameIndices,
-            usernames: usernames
-        };
-    })(data);
-    var defaultTitle = "Facebook Archive";
-    var title = (options.site_title ?
-          options.site_title + " - " + defaultTitle
-        : defaultTitle);
+    var title = options.site_title ? (options.site_title + " - " + defaultTitle) : defaultTitle;
 
     app.get('/', function (req, res) {
         res.render("index", {
             title: title,
-            data: data.data[0].fql_result_set,
-            usernameIndices: usernames.usernameIndices,
-            usernames: usernames.usernames
+            allposts: data.allposts,
+            users: data.users
         });
     });
 

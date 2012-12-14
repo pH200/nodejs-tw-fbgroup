@@ -9,6 +9,7 @@ var path = require('path');
 var fbQuery = require("./sabrina/fb-query");
 var readJson = require("./sabrina/persistence-read-json");
 var saveJson = require("./sabrina/persistence-save-json");
+var dataGrinder = require("./sabrina/data-grinder");
 var startServer = require("./erika/start-server");
 
 var waterfall = require("./sabrina/waterfall");
@@ -105,7 +106,7 @@ function main () {
             return console.log(err);
         }
         if (!argv.skip_server) {
-            startServer(data, argv);
+            startServer(dataGrinder(data), argv);
         }
     });
 }

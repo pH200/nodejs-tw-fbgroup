@@ -10,22 +10,22 @@
     </head>
     <body>
         <ul>
-            <% for (var i = 0; i < data.length; i++) { %>
-                <%  var post = data[i];
+            <% for (var i = 0; i < allposts.length; i++) { %>
+                <%  var post = allposts[i];
                     var commentList = post.comments.comment_list; %>
                 <li>
-                    <%  var userIndex = usernameIndices.indexOf(post.actor_id); %>
+                    <%  var userIndex = users.indices.indexOf(post.actor_id); %>
                     <% if (userIndex >= 0) { %>
-                        <span class="user-id"><%= usernames[userIndex].name %>: </span>
+                        <span class="user-id"><%= users.users[userIndex].name %>: </span>
                     <% } %>
                     <span><%-: post.message | br %></span>
                     <ul>
                         <% for (var commentIndex = 0; commentIndex < commentList.length; commentIndex++) { %>
                             <li>
                                 <%  var comment = commentList[commentIndex];
-                                    var cUserIndex = usernameIndices.indexOf(comment.fromid) %>
+                                    var cUserIndex = users.indices.indexOf(comment.fromid) %>
                                 <% if (cUserIndex >= 0) { %>
-                                    <span class="user-id"><%= usernames[cUserIndex].name %>: </span>
+                                    <span class="user-id"><%= users.users[cUserIndex].name %>: </span>
                                 <% } %>
                                 <span><%-: comment.text | br %></span>
                             </li>
