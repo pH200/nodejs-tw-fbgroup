@@ -19,7 +19,8 @@ a {
     font-family: "Meiryo UI","Microsoft Jhenghei","微軟正黑體",sans-serif;
 }
 #menu a {
-    display: inline-block;
+    display: table-cell;
+    vertical-align: middle;
     padding: 0 5px;
     height: 34px;
     color: #555;
@@ -28,9 +29,6 @@ a {
 #menu a:hover {
     background-color: gainsboro;
     box-shadow: 2px 2px 3px rgba(0,0,0,0.5);
-}
-#menu .menu-title {
-    vertical-align: middle;
 }
 
 .user-name {
