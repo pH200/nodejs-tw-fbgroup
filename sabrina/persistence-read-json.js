@@ -35,7 +35,7 @@ module.exports = function (jsonpath, jsondir, callback) {
             if (file) {
                 return cb(null, file);
             }
-            return escape("file not found");
+            return escape(new Error("file not found"));
         },
         function (value, cb, end, escape) {
             fs.readFile(path.join(jsondir, value), "utf8", escape);
