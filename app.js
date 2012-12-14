@@ -35,7 +35,9 @@ var argv = optimist
     .wrap(80)
     .argv;
 
-var continueNormal = (function steps (argument) {
+
+
+function steps (onNext) {
     if (argv.login_steps) {
         console.log("Login URL: ");
         var url = fbQuery.getDefaultAuthUrl(argv.appid || "$APPID");
@@ -55,11 +57,8 @@ var continueNormal = (function steps (argument) {
             navigateUrl(url);
         }
     } else {
-        return true;
+        onNext(null);
     }
-})();
-if (!continueNormal) {
-    return;
 }
 
 var persistence = argv.persistence;
@@ -71,40 +70,44 @@ function getData (callback) {
     return callback("data not found");
 }
 
-waterfall.escapeWaterfall([
-    function (value, cb, end, escape) {
-        if (!argv.rebuild) {
-            return getData(end);
+function main () {
+    waterfall.escapeWaterfall([
+        function (value, cb, end, escape) {
+            if (!argv.rebuild) {
+                return getData(end);
+            }
+            return cb("next");
+        },
+        function (value, cb, end, escape) {
+            if ((!argv.no_auto_rebuild) && argv.groupid && argv.accesstoken) {
+                console.log("querying new data...");
+                return fbQuery.query(argv.groupid, argv.accesstoken, escape);
+            } else {
+                return escape("provide FB informations or setup persistence data.");
+            }
+        },
+        function (value, cb, end, escape) {
+            if (persistence === "json") {
+                return saveJson(JSON.stringify(value), argv.jsonpath, argv.jsondir, waterfall.carry(value, cb));
+            } else {
+                return end(null, value);
+            }
+        },
+        function (value, cb, end, escape) {
+            if (/* err */value[0]) {
+                console.log(value[0]);
+                console.log("failed saving persistence.");
+            }
+            return end(null, /* value */value[1]);
         }
-        return cb("next");
-    },
-    function (value, cb, end, escape) {
-        if ((!argv.no_auto_rebuild) && argv.groupid && argv.accesstoken) {
-            console.log("querying new data...");
-            return fbQuery.query(argv.groupid, argv.accesstoken, escape);
-        } else {
-            return escape("provide FB informations or setup persistence data.");
+    ], function (err, data) {
+        if (err) {
+            return console.log(err);
         }
-    },
-    function (value, cb, end, escape) {
-        if (persistence === "json") {
-            return saveJson(JSON.stringify(value), argv.jsonpath, argv.jsondir, waterfall.carry(value, cb));
-        } else {
-            return end(null, value);
+        if (!argv.skip_server) {
+            startServer(data, argv);
         }
-    },
-    function (value, cb, end, escape) {
-        if (/* err */value[0]) {
-            console.log(value[0]);
-            console.log("failed saving persistence.");
-        }
-        return end(null, /* value */value[1]);
-    }
-], function (err, data) {
-    if (err) {
-        return console.log(err);
-    }
-    if (!argv.skip_server) {
-        startServer(data, argv);
-    }
-});
+    });
+}
+
+steps(main);
