@@ -7,13 +7,18 @@ var waterfall = require("./waterfall");
 var jsonParse = require("./json-parse");
 
 module.exports = function (jsonpath, jsondir, callback) {
+    function onComplete (err, json) {
+        if (err) {
+            return callback(err);
+        }
+        return jsonParse(json, callback);
+    }
+
+    if (jsonpath) {
+        return fs.readFile(jsonpath, "utf8", onComplete);
+    }
+
     return waterfall.escapeWaterfall([
-        function (value, cb, end) {
-            if (jsonpath) {
-                fs.readFile(jsonpath, "utf8", end);
-            }
-            return cb("next");
-        },
         function (value, cb, end, escape) {
             return fs.readdir(jsondir, escape);
         },
@@ -41,9 +46,6 @@ module.exports = function (jsonpath, jsondir, callback) {
         },
         function (value, cb, end, escape) {
             return fs.readFile(path.join(jsondir, value), "utf8", escape);
-        },
-        function (value, cb, end) {
-            return jsonParse(value, end);
         }
-    ], callback);
+    ], onComplete);
 };
